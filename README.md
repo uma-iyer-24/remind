@@ -39,11 +39,14 @@ Open [http://localhost:5173](http://localhost:5173) → **Try ML concepts demo**
 
 ## Vercel (frontend)
 
-1. Import the GitHub repo in Vercel.
-2. Set **Root Directory** to `apps/web`.
-3. Build command: `npm run build` · Output: `dist`.
-4. Deploy the API separately (Railway/Render/Fly) with repo root context so `ml/artifacts/` is available.
-5. Set `VITE_API_URL` to your API origin (no trailing slash). Without it, the UI uses an offline heuristic scorer.
+**Option A — repo root (default):** Import the GitHub repo; `vercel.json` at the repo root runs the build from `apps/web`.
+
+**Option B — app subdirectory:** Set **Root Directory** to `apps/web` (uses `apps/web/vercel.json`).
+
+Then:
+
+1. Deploy the API separately (Railway/Render/Fly) with repo root context so `ml/artifacts/` is available.
+2. In Vercel → **Settings → Environment Variables**, set `VITE_API_URL` to your API origin (no trailing slash). Without it, the UI uses an offline heuristic scorer.
 
 ## Docs
 

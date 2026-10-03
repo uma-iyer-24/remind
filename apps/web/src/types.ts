@@ -50,4 +50,5 @@ export interface PalaceSession {
   startedAt: number;
   quizzesTaken: number;
   correctCount: number;
+  totalQuestions: number;
 }

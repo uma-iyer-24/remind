@@ -1,9 +1,18 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import mlDeck from "../data/ml-concepts.json";
-import { layoutPositions } from "../lib/layout";
+import { getPalaceSlot } from "../lib/palaceLayout";
 import { rankConcepts } from "../lib/api";
 import type { Concept, ConceptState, PalaceSession } from "../types";
+
+export interface QuizRecordFeedback {
+  scoringSource: string;
+  forgetProbability: number;
+  explanation: string;
+  pathIndexBefore: number;
+  pathIndexAfter: number;
+  conceptTitle: string;
+}
 
 interface SessionStore {
   session: PalaceSession | null;
@@ -15,16 +24,21 @@ interface SessionStore {
   applyRanking: () => Promise<void>;
   recordQuiz: (
     id: string,
-    result: { correct: boolean; rating: string; responseTimeMs: number },
-  ) => Promise<void>;
+    result: {
+      correct: boolean;
+      correctCount: number;
+      totalQuestions: number;
+      rating: string;
+      responseTimeMs: number;
+    },
+  ) => Promise<QuizRecordFeedback>;
   reset: () => void;
 }
 
 function initConcepts(concepts: Concept[], title: string): PalaceSession {
-  const positions = layoutPositions(concepts.length);
   const states: ConceptState[] = concepts.map((c, i) => ({
     ...c,
-    position: positions[i]!,
+    position: getPalaceSlot(i).center,
     pathIndex: i,
     reviewCount: 0,
     successStreak: 0,
@@ -41,15 +55,15 @@ function initConcepts(concepts: Concept[], title: string): PalaceSession {
     startedAt: Date.now(),
     quizzesTaken: 0,
     correctCount: 0,
+    totalQuestions: 0,
   };
 }
 
 function repositionByRank(session: PalaceSession, orderedIds: string[]): PalaceSession {
-  const positions = layoutPositions(session.concepts.length);
   const rankMap = new Map(orderedIds.map((id, i) => [id, i]));
   const concepts = session.concepts.map((c) => {
     const rank = rankMap.get(c.id) ?? c.pathIndex;
-    return { ...c, pathIndex: rank, position: positions[rank]! };
+    return { ...c, pathIndex: rank, position: getPalaceSlot(rank).center };
   });
   return { ...session, concepts };
 }
@@ -106,7 +120,19 @@ export const useSessionStore = create<SessionStore>()(
 
       recordQuiz: async (id, result) => {
         const { session } = get();
-        if (!session) return;
+        if (!session) {
+          return {
+            scoringSource: "heuristic",
+            forgetProbability: 0,
+            explanation: "",
+            pathIndexBefore: 0,
+            pathIndexAfter: 0,
+            conceptTitle: "",
+          };
+        }
+        const before = session.concepts.find((c) => c.id === id);
+        const pathIndexBefore = before?.pathIndex ?? 0;
+
         const concepts = session.concepts.map((c) => {
           if (c.id !== id) return c;
           const reviewCount = c.reviewCount + 1;
@@ -129,10 +155,21 @@ export const useSessionStore = create<SessionStore>()(
             ...session,
             concepts,
             quizzesTaken: session.quizzesTaken + 1,
-            correctCount: session.correctCount + (result.correct ? 1 : 0),
+            correctCount: session.correctCount + result.correctCount,
+            totalQuestions: session.totalQuestions + result.totalQuestions,
           },
         });
         await get().applyRanking();
+
+        const after = get().session?.concepts.find((c) => c.id === id);
+        return {
+          scoringSource: get().scoringSource,
+          forgetProbability: after?.forgetProbability ?? 0,
+          explanation: after?.explanation ?? "",
+          pathIndexBefore,
+          pathIndexAfter: after?.pathIndex ?? pathIndexBefore,
+          conceptTitle: after?.title ?? before?.title ?? "",
+        };
       },
 
       reset: () => set({ session: null, selectedId: null }),

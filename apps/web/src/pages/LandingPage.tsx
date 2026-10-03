@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Box, Brain, Sparkles } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import SiteHeader from "../components/SiteHeader";
 import { useSessionStore } from "../store/session";
 
 export default function LandingPage() {
@@ -17,18 +18,9 @@ export default function LandingPage() {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(245,158,11,0.12),_transparent_55%)]" />
       <div className="pointer-events-none absolute -right-32 top-20 h-96 w-96 rounded-full bg-indigo-600/20 blur-3xl" />
 
-      <header className="relative z-10 mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
-        <div className="flex items-center gap-2">
-          <Box className="h-6 w-6 text-amber-glow" />
-          <span className="font-display text-lg font-semibold">Remind</span>
-        </div>
-        <Link
-          to="/create"
-          className="text-sm text-slate-300 transition hover:text-white"
-        >
-          Create palace
-        </Link>
-      </header>
+      <div className="relative z-10">
+        <SiteHeader />
+      </div>
 
       <main className="relative z-10 mx-auto grid max-w-6xl gap-12 px-6 pb-20 pt-8 md:grid-cols-2 md:items-center md:pt-16">
         <div>

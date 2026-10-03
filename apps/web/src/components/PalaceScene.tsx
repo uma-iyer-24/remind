@@ -1,77 +1,132 @@
-import { ContactShadows, Environment, OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import MemoryObject from "./MemoryObject";
+import { Suspense, useEffect } from "react";
+import type { WallTidbit } from "../lib/wallTidbits";
 import type { ConceptState } from "../types";
+import MemoryPalaceWorld from "./palace/MemoryPalaceWorld";
+import { palaceTheme as t } from "./palace/palaceTheme";
+import PalaceInteractions from "./palace/PalaceInteractions";
+import { PalaceNavProvider, usePalaceNav } from "./palace/palaceNav";
+import PlayerController from "./palace/PlayerController";
+import RoomExitButton from "./palace/RoomExitButton";
+import type { PalaceHudState } from "./palace/PalaceHud";
 
 interface Props {
   concepts: ConceptState[];
   selectedId: string | null;
+  uiBlocking: boolean;
   onSelect: (id: string) => void;
+  onTidbitClick: (tidbit: WallTidbit) => void;
+  onPortraitClick: (conceptId: string) => void;
+  onHudChange: (state: PalaceHudState | null) => void;
 }
 
-export default function PalaceScene({ concepts, selectedId, onSelect }: Props) {
+function PromptReporter({ onHudChange }: { onHudChange: (state: PalaceHudState | null) => void }) {
+  const nav = usePalaceNav();
+
+  useEffect(() => {
+    if (nav.nearDoor) {
+      onHudChange({
+        zone: nav.zone === "hall" ? "hall" : "corridor",
+        contextMessage: `Press E to enter — ${nav.nearDoor.title}`,
+        emphasis: "action",
+      });
+      return;
+    }
+    if (nav.zone === "room" && nav.nearPortrait) {
+      onHudChange({
+        zone: "room",
+        contextMessage: `Press E to study — ${nav.nearPortrait.title}`,
+        emphasis: "action",
+      });
+      return;
+    }
+    if (nav.zone === "hall") {
+      onHudChange({
+        zone: "hall",
+        contextMessage: "Explore the colourful foyer, then walk into the manor hallway",
+        emphasis: "normal",
+      });
+      return;
+    }
+    if (nav.zone === "room") {
+      onHudChange({
+        zone: "room",
+        contextMessage: "Portrait & wall notes · Leave room button (top) or press E",
+        emphasis: "normal",
+      });
+      return;
+    }
+    onHudChange({
+      zone: "corridor",
+      contextMessage: "Painted walls & study doors line the hall — press E to enter",
+      emphasis: "normal",
+    });
+  }, [nav.zone, nav.nearDoor, nav.nearPortrait, onHudChange]);
+
+  return null;
+}
+
+function SceneContent({
+  concepts,
+  selectedId,
+  onSelect,
+  onTidbitClick,
+  onPortraitClick,
+  onHudChange,
+}: Omit<Props, "uiBlocking">) {
   return (
-    <Canvas
-      shadows
-      camera={{ position: [0, 2.8, 7.5], fov: 45 }}
-      className="h-full w-full touch-none"
-    >
-      <color attach="background" args={["#0B1020"]} />
-      <fog attach="fog" args={["#0B1020", 8, 22]} />
-      <ambientLight intensity={0.35} />
-      <directionalLight castShadow position={[4, 8, 2]} intensity={1.1} />
-      <Environment preset="night" />
-
-      <Room />
-
-      {concepts.map((c) => (
-        <MemoryObject
-          key={c.id}
-          concept={c}
-          selected={c.id === selectedId}
-          onSelect={() => onSelect(c.id)}
-        />
-      ))}
-
-      <ContactShadows position={[0, 0.01, 0]} opacity={0.45} scale={12} blur={2.5} far={6} />
-      <OrbitControls
-        enablePan={false}
-        minPolarAngle={Math.PI / 6}
-        maxPolarAngle={Math.PI / 2.1}
-        minDistance={5}
-        maxDistance={11}
-        target={[0, 1, 0]}
+    <>
+      <color attach="background" args={[t.sky]} />
+      <fog attach="fog" args={[t.sky, t.fogNear, t.fogFar]} />
+      <ambientLight intensity={0.78} color="#FFF5EB" />
+      <directionalLight position={[4, 12, 8]} intensity={0.62} color="#FFFBF5" />
+      <hemisphereLight args={["#BAE6FD", t.floorWoodDark, 0.5]} />
+      <PlayerController roomCount={concepts.length} />
+      <MemoryPalaceWorld
+        concepts={concepts}
+        selectedId={selectedId}
+        onSelectConcept={onSelect}
+        onTidbitClick={onTidbitClick}
+        onPortraitClick={onPortraitClick}
       />
-    </Canvas>
+      <PalaceInteractions concepts={concepts} onOpenPortrait={onPortraitClick} />
+      <PromptReporter onHudChange={onHudChange} />
+    </>
   );
 }
 
-function Room() {
+export default function PalaceScene({
+  concepts,
+  selectedId,
+  uiBlocking,
+  onSelect,
+  onTidbitClick,
+  onPortraitClick,
+  onHudChange,
+}: Props) {
   return (
-    <group>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow position={[0, 0, 0]}>
-        <planeGeometry args={[14, 14]} />
-        <meshStandardMaterial color="#121829" metalness={0.2} roughness={0.85} />
-      </mesh>
-      <mesh position={[0, 2.5, -5]} receiveShadow>
-        <planeGeometry args={[14, 5]} />
-        <meshStandardMaterial color="#1a2238" />
-      </mesh>
-      <mesh position={[-5, 2.5, 0]} rotation={[0, Math.PI / 2, 0]}>
-        <planeGeometry args={[14, 5]} />
-        <meshStandardMaterial color="#151c30" />
-      </mesh>
-      <mesh position={[5, 2.5, 0]} rotation={[0, -Math.PI / 2, 0]}>
-        <planeGeometry args={[14, 5]} />
-        <meshStandardMaterial color="#151c30" />
-      </mesh>
-      {/* Path markers */}
-      {Array.from({ length: 8 }).map((_, i) => (
-        <mesh key={i} position={[-3.5 + i, 0.02, 2.5 - i * 0.35]} rotation={[-Math.PI / 2, 0, 0]}>
-          <ringGeometry args={[0.08, 0.12, 24]} />
-          <meshBasicMaterial color="#F59E0B" transparent opacity={0.35} />
-        </mesh>
-      ))}
-    </group>
+    <PalaceNavProvider>
+      <div className="relative h-full w-full">
+        <Canvas
+          dpr={[1, 1.25]}
+          gl={{ powerPreference: "high-performance", antialias: false }}
+          camera={{ fov: 70, near: 0.1, far: 65 }}
+          className="h-full w-full touch-none"
+        >
+          <Suspense fallback={null}>
+            <SceneContent
+              concepts={concepts}
+              selectedId={selectedId}
+              onSelect={onSelect}
+              onTidbitClick={onTidbitClick}
+              onPortraitClick={onPortraitClick}
+              onHudChange={onHudChange}
+            />
+          </Suspense>
+        </Canvas>
+        {!uiBlocking && <RoomExitButton concepts={concepts} />}
+      </div>
+      {uiBlocking && <div className="pointer-events-none fixed inset-0 z-[9999]" aria-hidden />}
+    </PalaceNavProvider>
   );
 }

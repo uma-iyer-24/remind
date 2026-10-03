@@ -1,0 +1,41 @@
+{
+  "features": [
+    "elapsed_days_since_last_review",
+    "review_count",
+    "success_streak",
+    "fail_streak",
+    "avg_response_time_ms",
+    "quiz_type_mc",
+    "position_index_on_path",
+    "concept_text_length"
+  ],
+  "label": "will_forget",
+  "dataset": "synthetic_srs_cohort_v1 (FSRS-calibrated simulation; swap for OSR exports)",
+  "n_samples": 32000,
+  "cv_results": [
+    {
+      "model": "logistic_regression",
+      "cv_auc_mean": 0.7449007872346793,
+      "cv_auc_std": 0.010190851973763,
+      "cv_f1_mean": 0.7149096003755853,
+      "cv_acc_mean": 0.6807812500000001
+    },
+    {
+      "model": "random_forest",
+      "cv_auc_mean": 0.748505984195004,
+      "cv_auc_std": 0.00798655682730213,
+      "cv_f1_mean": 0.7280116628051548,
+      "cv_acc_mean": 0.687265625
+    }
+  ],
+  "holdout": {
+    "model": "random_forest",
+    "test_auc": 0.7512672064777328,
+    "test_f1": 0.7225842229308194,
+    "test_accuracy": 0.68734375,
+    "best_params": {
+      "clf__max_depth": 8,
+      "clf__n_estimators": 150
+    }
+  }
+}

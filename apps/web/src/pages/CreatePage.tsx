@@ -31,9 +31,14 @@ export default function CreatePage() {
 
   return (
     <div className="mx-auto min-h-full max-w-2xl px-6 py-10">
-      <Link to="/" className="text-sm text-slate-400 hover:text-white">
-        ← Back
-      </Link>
+      <div className="flex gap-4 text-sm">
+        <Link to="/" className="text-slate-400 hover:text-white">
+          ← Back
+        </Link>
+        <Link to="/architecture" className="text-slate-400 hover:text-white">
+          Architecture
+        </Link>
+      </div>
       <h1 className="mt-6 font-display text-3xl text-white">Create a palace</h1>
       <p className="mt-2 text-slate-400">One concept per line. We&apos;ll assign objects from the keyword map.</p>
 
