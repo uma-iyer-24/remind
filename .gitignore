@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+
+# ML artifacts (large; train locally)
+ml/artifacts/*.joblib
+ml/artifacts/*.pkl
+*.joblib
+*.pkl
+
+# Build
+dist/
+build/
+.next/
+.vercel/
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Logs & data dumps
+*.log
+data/raw/
+data/processed/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# SQLite
+*.db
