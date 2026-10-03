@@ -1,0 +1,127 @@
+{
+  "id": "ml-fundamentals",
+  "title": "ML Fundamentals",
+  "description": "Core machine learning concepts for your memory palace demo.",
+  "concepts": [
+    {
+      "id": "cv",
+      "title": "Cross-validation",
+      "definition": "Repeatedly splitting data into train and validation folds to estimate generalization performance.",
+      "mnemonic": "Rotate the folders — each fold gets a turn in the spotlight.",
+      "keywords": ["cross-validation", "k-fold", "validation"],
+      "prop": { "shape": "octahedron", "color": "#6366F1" }
+    },
+    {
+      "id": "bias-variance",
+      "title": "Bias–variance tradeoff",
+      "definition": "Underfitting (high bias) vs overfitting (high variance); models balance simplicity and flexibility.",
+      "mnemonic": "A stiff ruler (bias) vs a wobbly rope (variance) measuring the same wall.",
+      "keywords": ["bias", "variance", "tradeoff"],
+      "prop": { "shape": "torus", "color": "#A855F7" }
+    },
+    {
+      "id": "gradient-descent",
+      "title": "Gradient descent",
+      "definition": "Iteratively update parameters by stepping opposite the loss gradient.",
+      "mnemonic": "Walk down a staircase in the dark, feeling the slope with your foot.",
+      "keywords": ["gradient", "descent", "optimization"],
+      "prop": { "shape": "stairs", "color": "#F59E0B" }
+    },
+    {
+      "id": "regularization",
+      "title": "Regularization",
+      "definition": "Penalties (L1/L2) that shrink weights to reduce overfitting.",
+      "mnemonic": "A spring pulling wild weights back toward zero.",
+      "keywords": ["regularization", "l1", "l2", "penalty"],
+      "prop": { "shape": "spring", "color": "#14B8A6" }
+    },
+    {
+      "id": "precision-recall",
+      "title": "Precision & recall",
+      "definition": "Precision: of predicted positives, how many are correct. Recall: of actual positives, how many you find.",
+      "mnemonic": "Precision is sharp aim; recall is sweeping the whole field.",
+      "keywords": ["precision", "recall", "classification"],
+      "prop": { "shape": "crosshair", "color": "#EC4899" }
+    },
+    {
+      "id": "roc-auc",
+      "title": "ROC-AUC",
+      "definition": "Area under the ROC curve; measures ranking quality across classification thresholds.",
+      "mnemonic": "A mountain silhouette — higher area, better separator.",
+      "keywords": ["roc", "auc", "threshold"],
+      "prop": { "shape": "pyramid", "color": "#8B5CF6" }
+    },
+    {
+      "id": "feature-engineering",
+      "title": "Feature engineering",
+      "definition": "Creating informative inputs from raw data to help models learn patterns.",
+      "mnemonic": "Polishing rough stones before building the wall.",
+      "keywords": ["feature", "engineering", "transform"],
+      "prop": { "shape": "gem", "color": "#22D3EE" }
+    },
+    {
+      "id": "data-leakage",
+      "title": "Train/test leakage",
+      "definition": "Information from the test set or future sneaks into training, inflating metrics.",
+      "mnemonic": "A cracked pipe letting exam answers drip into study notes.",
+      "keywords": ["leakage", "leak", "test", "train"],
+      "prop": { "shape": "crack", "color": "#EF4444" }
+    },
+    {
+      "id": "k-fold",
+      "title": "K-fold CV",
+      "definition": "Split data into k parts; each part serves once as validation while the rest train.",
+      "mnemonic": "k slices of pie — everyone gets a slice as dessert.",
+      "keywords": ["k-fold", "fold", "cross"],
+      "prop": { "shape": "pie", "color": "#F97316" }
+    },
+    {
+      "id": "hyperparameters",
+      "title": "Hyperparameters",
+      "definition": "Settings chosen before training (learning rate, tree depth) rather than learned from data.",
+      "mnemonic": "Knobs on an amp — not the song, but they shape the sound.",
+      "keywords": ["hyperparameter", "tuning", "grid"],
+      "prop": { "shape": "dial", "color": "#EAB308" }
+    },
+    {
+      "id": "ensemble",
+      "title": "Ensemble methods",
+      "definition": "Combine multiple models (bagging, boosting) for stronger, stabler predictions.",
+      "mnemonic": "A choir of models — one voice might waver, the chorus holds.",
+      "keywords": ["ensemble", "boosting", "bagging", "forest"],
+      "prop": { "shape": "cluster", "color": "#10B981" }
+    },
+    {
+      "id": "overfitting",
+      "title": "Overfitting",
+      "definition": "Model memorizes training noise and fails on new data.",
+      "mnemonic": "A statue wrapped in vines — detail everywhere, shape lost.",
+      "keywords": ["overfitting", "overfit", "memorize"],
+      "prop": { "shape": "vine", "color": "#84CC16" }
+    },
+    {
+      "id": "embedding",
+      "title": "Embeddings",
+      "definition": "Dense vector representations that capture semantic similarity between items.",
+      "mnemonic": "Stars in a constellation — close stars mean similar meaning.",
+      "keywords": ["embedding", "vector", "semantic"],
+      "prop": { "shape": "constellation", "color": "#3B82F6" }
+    },
+    {
+      "id": "loss",
+      "title": "Loss function",
+      "definition": "Scalar score the optimizer minimizes to measure prediction error.",
+      "mnemonic": "A thermometer for wrongness — the model tries to cool it down.",
+      "keywords": ["loss", "objective", "error"],
+      "prop": { "shape": "flame", "color": "#DC2626" }
+    },
+    {
+      "id": "learning-rate",
+      "title": "Learning rate",
+      "definition": "Step size for parameter updates; too large diverges, too small crawls.",
+      "mnemonic": "Stride length on that dark staircase — not too giant, not baby steps forever.",
+      "keywords": ["learning rate", "lr", "step"],
+      "prop": { "shape": "ruler", "color": "#0EA5E9" }
+    }
+  ]
+}

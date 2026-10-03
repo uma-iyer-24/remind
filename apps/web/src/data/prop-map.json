@@ -1,0 +1,21 @@
+{
+  "rules": [
+    { "match": ["gradient", "descent", "optimize"], "prop": { "shape": "stairs", "color": "#F59E0B" } },
+    { "match": ["overfit", "memor"], "prop": { "shape": "vine", "color": "#84CC16" } },
+    { "match": ["cross", "fold", "validation"], "prop": { "shape": "octahedron", "color": "#6366F1" } },
+    { "match": ["bias", "variance"], "prop": { "shape": "torus", "color": "#A855F7" } },
+    { "match": ["regular", "l1", "l2"], "prop": { "shape": "spring", "color": "#14B8A6" } },
+    { "match": ["precision", "recall", "classif"], "prop": { "shape": "crosshair", "color": "#EC4899" } },
+    { "match": ["roc", "auc"], "prop": { "shape": "pyramid", "color": "#8B5CF6" } },
+    { "match": ["feature", "engineer"], "prop": { "shape": "gem", "color": "#22D3EE" } },
+    { "match": ["leak"], "prop": { "shape": "crack", "color": "#EF4444" } },
+    { "match": ["hyper", "tuning", "grid"], "prop": { "shape": "dial", "color": "#EAB308" } },
+    { "match": ["ensemble", "boost", "forest", "bag"], "prop": { "shape": "cluster", "color": "#10B981" } },
+    { "match": ["embed", "vector", "semantic"], "prop": { "shape": "constellation", "color": "#3B82F6" } },
+    { "match": ["loss", "error", "objective"], "prop": { "shape": "flame", "color": "#DC2626" } },
+    { "match": ["learning rate", "learning-rate", " lr"], "prop": { "shape": "ruler", "color": "#0EA5E9" } },
+    { "match": ["neural", "network", "deep"], "prop": { "shape": "network", "color": "#7C3AED" } },
+    { "match": ["cluster", "kmeans"], "prop": { "shape": "cluster", "color": "#059669" } }
+  ],
+  "default": { "shape": "cube", "color": "#64748B" }
+}

@@ -1,0 +1,16 @@
+[
+  {
+    "model": "logistic_regression",
+    "cv_auc_mean": 0.7449007872346793,
+    "cv_auc_std": 0.010190851973763,
+    "cv_f1_mean": 0.7149096003755853,
+    "cv_acc_mean": 0.6807812500000001
+  },
+  {
+    "model": "random_forest",
+    "cv_auc_mean": 0.748505984195004,
+    "cv_auc_std": 0.00798655682730213,
+    "cv_f1_mean": 0.7280116628051548,
+    "cv_acc_mean": 0.687265625
+  }
+]
