@@ -6,7 +6,7 @@
 
 ## Quick start (local)
 
-### 1. Train ML models
+### 1. Train ML models:
 
 ```bash
 cd /path/to/remind
