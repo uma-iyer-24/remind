@@ -197,7 +197,15 @@ export function CeilingMedallion({ position, color = t.brass }: { position: [num
   );
 }
 
-export function Chandelier({ position, gemColor = "#F472B6" }: { position: [number, number, number]; gemColor?: string }) {
+export function Chandelier({
+  position,
+  gemColor = "#C4B48A",
+  quiet = false,
+}: {
+  position: [number, number, number];
+  gemColor?: string;
+  quiet?: boolean;
+}) {
   return (
     <group position={position}>
       <mesh>
@@ -210,7 +218,7 @@ export function Chandelier({ position, gemColor = "#F472B6" }: { position: [numb
       </mesh>
       {[0, 1, 2, 3, 4, 5].map((i) => {
         const a = (i / 6) * Math.PI * 2;
-        const c = accentAt(i);
+        const c = quiet ? "#CDB892" : accentAt(i);
         return (
           <mesh key={i} position={[Math.cos(a) * 0.32, -0.32, Math.sin(a) * 0.32]}>
             <sphereGeometry args={[0.055, 8, 8]} />
@@ -438,16 +446,8 @@ export function StudyTable({ position }: { position: [number, number, number] })
   return (
     <group position={position}>
       <mesh position={[0, 0.72, 0]}>
-        <boxGeometry args={[1.05, 0.07, 0.65]} />
+        <boxGeometry args={[1.15, 0.07, 0.72]} />
         <meshStandardMaterial color={t.trim} {...wood} />
-      </mesh>
-      <mesh position={[0.35, 0.78, 0.15]}>
-        <boxGeometry args={[0.18, 0.02, 0.24]} />
-        <meshStandardMaterial color="#FEF3C7" roughness={0.85} />
-      </mesh>
-      <mesh position={[-0.28, 0.78, -0.12]}>
-        <cylinderGeometry args={[0.035, 0.035, 0.12, 8]} />
-        <meshStandardMaterial color="#7C3AED" roughness={0.5} />
       </mesh>
       {[
         [-0.42, 0.36, -0.24],
@@ -460,7 +460,6 @@ export function StudyTable({ position }: { position: [number, number, number] })
           <meshStandardMaterial color={t.doorFrame} {...wood} />
         </mesh>
       ))}
-      <TableLamp position={[0.42, 0.75, -0.18]} />
     </group>
   );
 }
@@ -569,7 +568,7 @@ export function ConsoleTable({ position }: { position: [number, number, number] 
       </mesh>
       <mesh position={[0, 1.35, -0.08]}>
         <boxGeometry args={[0.9, 1.1, 0.04]} />
-        <meshStandardMaterial color="#C0C8D0" roughness={0.15} metalness={0.7} />
+        <meshStandardMaterial color="#E7E1D6" roughness={0.55} metalness={0.08} />
       </mesh>
       <mesh position={[-0.55, 0.28, 0]}>
         <cylinderGeometry args={[0.04, 0.05, 0.55, 8]} />
@@ -582,7 +581,7 @@ export function ConsoleTable({ position }: { position: [number, number, number] 
       <VaseWithFlowers position={[0.35, 0.58, 0.05]} />
       <mesh position={[-0.4, 0.6, 0]}>
         <boxGeometry args={[0.12, 0.18, 0.08]} />
-        <meshStandardMaterial color="#2563EB" roughness={0.5} metalness={0.15} />
+        <meshStandardMaterial color="#5C4033" roughness={0.6} />
       </mesh>
     </group>
   );
@@ -593,9 +592,9 @@ export function VaseWithFlowers({ position }: { position: [number, number, numbe
     <group position={position}>
       <mesh>
         <cylinderGeometry args={[0.07, 0.09, 0.16, 10]} />
-        <meshStandardMaterial color="#0EA5E9" roughness={0.4} metalness={0.1} />
+        <meshStandardMaterial color="#8A7355" roughness={0.55} />
       </mesh>
-      {["#F472B6", "#FBBF24", "#A78BFA"].map((c, i) => (
+      {["#C4B48A", "#8FA396", "#C3A6A0"].map((c, i) => (
         <mesh key={c} position={[Math.cos(i * 2.1) * 0.05, 0.14 + i * 0.03, Math.sin(i * 2.1) * 0.05]}>
           <sphereGeometry args={[0.045, 8, 8]} />
           <meshStandardMaterial color={c} roughness={0.6} />

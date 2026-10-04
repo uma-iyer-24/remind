@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 html,
@@ -13,11 +13,11 @@ body,
 }
 
 body {
-  @apply bg-ink font-sans text-slate-100 antialiased;
+  @apply bg-[#F6F1E8] font-sans text-slate-900 antialiased;
 }
 
 .glass {
-  @apply border border-white/10 bg-white/5 shadow-glass backdrop-blur-xl;
+  @apply border border-stone-300 bg-white/80 shadow-glass backdrop-blur-xl;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -13,7 +13,7 @@ export default function PalaceHud({ state }: { state: PalaceHudState | null }) {
 
   return (
     <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 px-3 pb-4 pt-2 md:px-6 md:pb-6">
-      <div className="mx-auto max-w-3xl rounded-2xl border-2 border-amber-glow/80 bg-ink/95 px-5 py-4 shadow-[0_-8px_40px_rgba(0,0,0,0.45)] backdrop-blur-md md:px-8 md:py-5">
+      <div className="mx-auto max-w-3xl rounded-2xl border border-stone-300/80 bg-[#F6F1E8]/95 px-5 py-4 shadow-lg md:px-8 md:py-5">
         <AnimatePresence mode="wait">
           <motion.p
             key={state.contextMessage}
@@ -22,8 +22,8 @@ export default function PalaceHud({ state }: { state: PalaceHudState | null }) {
             exit={{ opacity: 0, y: -4 }}
             className={`text-center font-display leading-snug ${
               state.emphasis === "action"
-                ? "text-2xl text-amber-glow md:text-3xl"
-                : "text-xl text-white md:text-2xl"
+                ? "text-xl text-stone-900 md:text-2xl"
+                : "text-lg text-stone-700 md:text-xl"
             }`}
           >
             {state.contextMessage}

@@ -28,6 +28,7 @@ export interface Concept {
   definition: string;
   mnemonic: string;
   keywords?: string[];
+  semanticId?: string;
   prop: PropConfig;
 }
 
@@ -41,6 +42,9 @@ export interface ConceptState extends Concept {
   avgResponseTimeMs: number;
   forgetProbability: number;
   explanation: string;
+  /** 0–1 recall confidence. Unseen topics stay at 0 and are excluded from the session average. */
+  mastery: number;
+  encountered: boolean;
 }
 
 export interface PalaceSession {

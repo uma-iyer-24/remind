@@ -32,7 +32,13 @@ interface SessionStore {
       responseTimeMs: number;
     },
   ) => Promise<QuizRecordFeedback>;
+  /** Final check only. Updates mastery for topics that were asked. Does not re-rank doors. */
+  recordFinalReview: (items: { conceptId: string; correctCount: number; totalQuestions: number }[]) => void;
   reset: () => void;
+}
+
+function nextMastery(prev: number, passed: boolean, ratio: number): number {
+  return passed ? Math.min(1, prev * 0.35 + ratio * 0.65) : Math.max(0, prev * 0.55 + ratio * 0.25);
 }
 
 function initConcepts(concepts: Concept[], title: string): PalaceSession {
@@ -47,6 +53,8 @@ function initConcepts(concepts: Concept[], title: string): PalaceSession {
     avgResponseTimeMs: 4500,
     forgetProbability: 0.35,
     explanation: "Not reviewed yet",
+    mastery: 0,
+    encountered: false,
   }));
   return {
     id: crypto.randomUUID(),
@@ -87,7 +95,7 @@ export const useSessionStore = create<SessionStore>()(
 
       startCustom: (title, concepts) => {
         set({
-          session: initConcepts(concepts.slice(0, 30), title),
+          session: initConcepts(concepts, title),
           selectedId: null,
           scoringSource: "heuristic",
         });
@@ -141,6 +149,9 @@ export const useSessionStore = create<SessionStore>()(
           const avgResponseTimeMs =
             (c.avgResponseTimeMs * c.reviewCount + result.responseTimeMs) /
             Math.max(reviewCount, 1);
+          const ratio = result.correctCount / Math.max(result.totalQuestions, 1);
+          const prev = c.mastery ?? 0;
+          const mastery = nextMastery(prev, result.correct, ratio);
           return {
             ...c,
             reviewCount,
@@ -148,6 +159,8 @@ export const useSessionStore = create<SessionStore>()(
             failStreak,
             lastReviewedAt: Date.now(),
             avgResponseTimeMs,
+            mastery,
+            encountered: true,
           };
         });
         set({
@@ -170,6 +183,47 @@ export const useSessionStore = create<SessionStore>()(
           pathIndexAfter: after?.pathIndex ?? pathIndexBefore,
           conceptTitle: after?.title ?? before?.title ?? "",
         };
+      },
+
+      recordFinalReview: (items) => {
+        const { session } = get();
+        if (!session || items.length === 0) return;
+        const byId = new Map<string, { correctCount: number; totalQuestions: number }>();
+        for (const item of items) {
+          const cur = byId.get(item.conceptId) ?? { correctCount: 0, totalQuestions: 0 };
+          byId.set(item.conceptId, {
+            correctCount: cur.correctCount + item.correctCount,
+            totalQuestions: cur.totalQuestions + item.totalQuestions,
+          });
+        }
+        let addedCorrect = 0;
+        let addedQuestions = 0;
+        const concepts = session.concepts.map((c) => {
+          const result = byId.get(c.id);
+          if (!result || result.totalQuestions <= 0) return c;
+          const ratio = result.correctCount / result.totalQuestions;
+          const passed = ratio >= 0.6;
+          addedCorrect += result.correctCount;
+          addedQuestions += result.totalQuestions;
+          return {
+            ...c,
+            reviewCount: c.reviewCount + 1,
+            successStreak: passed ? c.successStreak + 1 : 0,
+            failStreak: passed ? 0 : c.failStreak + 1,
+            lastReviewedAt: Date.now(),
+            mastery: nextMastery(c.mastery ?? 0, passed, ratio),
+            encountered: true,
+          };
+        });
+        set({
+          session: {
+            ...session,
+            concepts,
+            quizzesTaken: session.quizzesTaken + 1,
+            correctCount: session.correctCount + addedCorrect,
+            totalQuestions: session.totalQuestions + addedQuestions,
+          },
+        });
       },
 
       reset: () => set({ session: null, selectedId: null }),

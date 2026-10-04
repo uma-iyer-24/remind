@@ -7,13 +7,21 @@ import { usePalaceNav } from "./palaceNav";
 interface Props {
   concepts: ConceptState[];
   onOpenPortrait: (id: string) => void;
+  onOpenFinale: () => void;
 }
 
-export default function PalaceInteractions({ concepts, onOpenPortrait }: Props) {
+export default function PalaceInteractions({ concepts, onOpenPortrait, onOpenFinale }: Props) {
   const nav = usePalaceNav();
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (e.code === "KeyL") {
+        if (nav.zone === "room" && nav.roomId) {
+          const target = getRoomExitTarget(concepts, nav.roomId);
+          if (target) nav.exitRoom(target.corridorPos, target.yaw);
+        }
+        return;
+      }
       if (e.code !== "KeyE") return;
       const ordered = [...concepts].sort((a, b) => a.pathIndex - b.pathIndex);
 
@@ -23,27 +31,27 @@ export default function PalaceInteractions({ concepts, onOpenPortrait }: Props) 
       }
 
       if (nav.nearDoor && (nav.zone === "corridor" || nav.zone === "hall")) {
+        if (nav.nearDoor.conceptId === "__finale__") {
+          onOpenFinale();
+          return;
+        }
         const idx = ordered.findIndex((c) => c.id === nav.nearDoor!.conceptId);
         if (idx < 0) return;
         const slot = getPalaceSlot(idx);
-        const face = slot.side === "left" ? -Math.PI / 2 : Math.PI / 2;
-        nav.enterRoom(nav.nearDoor.conceptId, slot.spawn, face + Math.PI, slot.center);
+        const dx = slot.center[0] - slot.spawn[0];
+        const dz = slot.center[2] - slot.spawn[2];
+        const faceCenter = Math.atan2(-dx, -dz);
+        nav.enterRoom(nav.nearDoor.conceptId, slot.spawn, faceCenter, slot.center);
         return;
       }
 
       if (nav.zone === "room" && nav.nearPortrait) {
         onOpenPortrait(nav.nearPortrait.conceptId);
-        return;
-      }
-
-      if (nav.zone === "room" && nav.roomId) {
-        const target = getRoomExitTarget(concepts, nav.roomId);
-        if (target) nav.exitRoom(target.corridorPos, target.yaw);
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [concepts, nav, onOpenPortrait]);
+  }, [concepts, nav, onOpenPortrait, onOpenFinale]);
 
   return null;
 }

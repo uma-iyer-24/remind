@@ -5,6 +5,7 @@ from pathlib import Path
 
 import joblib
 import numpy as np
+import pandas as pd
 
 FEATURES = [
     "elapsed_days_since_last_review",
@@ -49,8 +50,9 @@ class MLService:
     def ready(self) -> bool:
         return self.model is not None
 
-    def _vector(self, row: dict) -> np.ndarray:
-        return np.array([[float(row[f]) for f in FEATURES]])
+    def _frame(self, row: dict) -> pd.DataFrame:
+        # The trained pipeline selects columns by name, so a bare array cannot be scored.
+        return pd.DataFrame([{name: float(row[name]) for name in FEATURES}])
 
     def heuristic_probability(self, row: dict) -> float:
         elapsed = row["elapsed_days_since_last_review"]
@@ -63,7 +65,7 @@ class MLService:
 
     def predict(self, row: dict) -> tuple[float, str]:
         if self.model is not None:
-            proba = float(self.model.predict_proba(self._vector(row))[0, 1])
+            proba = float(self.model.predict_proba(self._frame(row))[0, 1])
             return proba, "model"
         return self.heuristic_probability(row), "heuristic"
 

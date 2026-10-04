@@ -36,10 +36,15 @@ export default function PortraitPopup({ concept, onClose, onQuiz }: Props) {
             className="mx-auto mb-4 w-full max-w-xs rounded-xl border-2 border-slate-800 shadow-md"
           />
           <p className="font-medium text-slate-950">{concept.definition}</p>
-          <p className="mt-3 rounded-lg bg-amber-50 px-3 py-2 text-sm text-amber-950">
+          <p className="mt-3 rounded-lg bg-stone-100 px-3 py-2 text-sm text-stone-800">
             <span className="font-semibold">Memory hook: </span>
             {concept.mnemonic}
           </p>
+          {concept.encountered && (
+            <p className="mt-3 text-sm font-medium text-teal-900">
+              Topic reviewed · recall {Math.round((concept.mastery ?? 0) * 100)}%
+            </p>
+          )}
           <ul className="mt-4 list-disc space-y-2 pl-5 text-sm text-slate-800">
             {meta.facts.map((f) => (
               <li key={f.slice(0, 24)}>{f}</li>

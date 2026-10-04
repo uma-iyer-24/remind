@@ -6,6 +6,7 @@ import InfoPopup from "../components/InfoPopup";
 import PalaceScene from "../components/PalaceScene";
 import PortraitPopup from "../components/PortraitPopup";
 import QuizPanel from "../components/QuizPanel";
+import FinalQuizPanel from "../components/FinalQuizPanel";
 import PalaceHud, { type PalaceHudState } from "../components/palace/PalaceHud";
 import type { WallTidbit } from "../lib/wallTidbits";
 import { useSessionStore } from "../store/session";
@@ -22,6 +23,7 @@ export default function PalacePage() {
   const [showSummary, setShowSummary] = useState(false);
   const [hud, setHud] = useState<PalaceHudState | null>(null);
   const [tidbit, setTidbit] = useState<WallTidbit | null>(null);
+  const [finale, setFinale] = useState(false);
 
   useEffect(() => {
     void applyRanking();
@@ -36,7 +38,18 @@ export default function PalacePage() {
     (a, b) => b.forgetProbability - a.forgetProbability,
   )[0];
 
-  const modalOpen = !!quizConcept || !!tidbit || !!portraitConcept;
+  const modalOpen = !!quizConcept || !!tidbit || !!portraitConcept || finale;
+  const explored = session.concepts.filter((c) => (c.reviewCount ?? 0) > 0 || c.encountered).length;
+  const seen = session.concepts.filter((c) => c.encountered);
+  const mastery =
+    seen.length === 0 ? null : Math.round((seen.reduce((sum, c) => sum + (c.mastery ?? 0), 0) / seen.length) * 100);
+  const progress = session.concepts.length ? Math.round((explored / session.concepts.length) * 100) : 0;
+  const nextTopic = [...session.concepts].sort((a, b) => {
+    const aSeen = a.encountered ? 1 : 0;
+    const bSeen = b.encountered ? 1 : 0;
+    if (aSeen !== bSeen) return aSeen - bSeen;
+    return (a.mastery ?? 0) - (b.mastery ?? 0);
+  })[0];
 
   return (
     <div className="relative h-[100dvh] overflow-hidden">
@@ -52,6 +65,7 @@ export default function PalacePage() {
             selectConcept(null);
             setTidbit(null);
           }}
+          onOpenFinale={() => setFinale(true)}
           onSelect={(id) => {
             selectConcept(id);
             setQuizId(null);
@@ -62,29 +76,28 @@ export default function PalacePage() {
       </div>
 
       <header className="pointer-events-none absolute left-0 right-0 top-0 z-10 flex items-start justify-between p-4 md:p-6">
-        <div className="pointer-events-auto glass rounded-2xl px-4 py-3">
-          <Link to="/" className="text-xs text-slate-400 hover:text-white">
-            Remind
+        <div className="pointer-events-auto rounded-2xl border border-stone-300/80 bg-[#F6F1E8]/95 px-4 py-3 text-stone-900 shadow-lg">
+          <Link to="/" className="text-xs text-stone-500 hover:text-stone-900">
+            ReMind
           </Link>
-          <h1 className="font-display text-lg text-white">{session.title}</h1>
-          <p className="mt-1 text-xs text-slate-400">
-            Scoring:{" "}
-            <span className={scoringSource === "model" ? "text-mint-glow" : "text-amber-glow"}>
-              {scoringSource === "model" ? "ML model" : "offline heuristic"}
-            </span>
-            {topRisk && (
-              <>
-                {" "}
-                · Focus: <span className="text-amber-glow">{topRisk.title}</span>
-              </>
-            )}
+          <h1 className="font-display text-lg">{session.title}</h1>
+          <p className="mt-1 text-xs text-stone-600">
+            {explored}/{session.concepts.length} topics explored · {progress}%
+          </p>
+          <div className="mt-2 h-1.5 w-36 overflow-hidden rounded-full bg-stone-200">
+            <div className="h-full bg-[#3E6B66]" style={{ width: `${progress}%` }} />
+          </div>
+          <p className="mt-1 text-[10px] uppercase tracking-wide text-stone-500">
+            Next: {nextTopic ? nextTopic.title : "—"}
+            {scoringSource === "model" ? " · forget model" : " · heuristic"}
+            {topRisk ? ` · fragile ${topRisk.title}` : ""}
           </p>
         </div>
 
         <div className="pointer-events-auto flex flex-wrap items-center justify-end gap-2">
           <Link
             to="/"
-            className="glass flex items-center gap-2 rounded-xl px-3 py-2 text-xs font-medium text-slate-200 hover:bg-white/10 hover:text-white"
+            className="flex items-center gap-2 rounded-xl border border-stone-300 bg-[#F6F1E8]/95 px-3 py-2 text-xs font-medium text-stone-800 shadow-lg hover:bg-white"
           >
             <Home className="h-4 w-4 shrink-0" aria-hidden />
             Home
@@ -92,9 +105,9 @@ export default function PalacePage() {
           <button
             type="button"
             onClick={() => setShowSummary(true)}
-            className="glass rounded-xl px-3 py-2 text-xs text-slate-200 hover:bg-white/10"
+            className="rounded-xl border border-stone-300 bg-[#F6F1E8]/95 px-3 py-2 text-xs text-stone-800 shadow-lg hover:bg-white"
           >
-            Session ({session.correctCount}/{session.totalQuestions ?? 0})
+            Recall {mastery === null ? "—" : `${mastery}%`}
           </button>
         </div>
       </header>
@@ -138,6 +151,8 @@ export default function PalacePage() {
           onComplete={(result) => recordQuiz(quizConcept.id, result)}
         />
       )}
+
+      {finale && <FinalQuizPanel concepts={session.concepts} onClose={() => setFinale(false)} />}
 
       {showSummary && (
         <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/55 p-4">

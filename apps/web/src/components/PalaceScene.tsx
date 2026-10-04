@@ -7,6 +7,7 @@ import { palaceTheme as t } from "./palace/palaceTheme";
 import PalaceInteractions from "./palace/PalaceInteractions";
 import { PalaceNavProvider, usePalaceNav } from "./palace/palaceNav";
 import PlayerController from "./palace/PlayerController";
+import RenderBudget from "./palace/RenderBudget";
 import RoomExitButton from "./palace/RoomExitButton";
 import type { PalaceHudState } from "./palace/PalaceHud";
 
@@ -17,6 +18,7 @@ interface Props {
   onSelect: (id: string) => void;
   onTidbitClick: (tidbit: WallTidbit) => void;
   onPortraitClick: (conceptId: string) => void;
+  onOpenFinale: () => void;
   onHudChange: (state: PalaceHudState | null) => void;
 }
 
@@ -43,7 +45,7 @@ function PromptReporter({ onHudChange }: { onHudChange: (state: PalaceHudState |
     if (nav.zone === "hall") {
       onHudChange({
         zone: "hall",
-        contextMessage: "Explore the colourful foyer, then walk into the manor hallway",
+        contextMessage: "Walk ahead. Each door is one topic.",
         emphasis: "normal",
       });
       return;
@@ -51,14 +53,14 @@ function PromptReporter({ onHudChange }: { onHudChange: (state: PalaceHudState |
     if (nav.zone === "room") {
       onHudChange({
         zone: "room",
-        contextMessage: "Portrait & wall notes · Leave room button (top) or press E",
+        contextMessage: "The portrait is on the left. Press E to study, or L to leave.",
         emphasis: "normal",
       });
       return;
     }
     onHudChange({
       zone: "corridor",
-      contextMessage: "Painted walls & study doors line the hall — press E to enter",
+      contextMessage: "Study doors line the hall. Press E to enter.",
       emphasis: "normal",
     });
   }, [nav.zone, nav.nearDoor, nav.nearPortrait, onHudChange]);
@@ -72,10 +74,13 @@ function SceneContent({
   onSelect,
   onTidbitClick,
   onPortraitClick,
+  onOpenFinale,
   onHudChange,
-}: Omit<Props, "uiBlocking">) {
+  renderActive,
+}: Omit<Props, "uiBlocking"> & { renderActive: boolean }) {
   return (
     <>
+      <RenderBudget renderActive={renderActive} />
       <color attach="background" args={[t.sky]} />
       <fog attach="fog" args={[t.sky, t.fogNear, t.fogFar]} />
       <ambientLight intensity={0.78} color="#FFF5EB" />
@@ -89,7 +94,7 @@ function SceneContent({
         onTidbitClick={onTidbitClick}
         onPortraitClick={onPortraitClick}
       />
-      <PalaceInteractions concepts={concepts} onOpenPortrait={onPortraitClick} />
+      <PalaceInteractions concepts={concepts} onOpenPortrait={onPortraitClick} onOpenFinale={onOpenFinale} />
       <PromptReporter onHudChange={onHudChange} />
     </>
   );
@@ -102,15 +107,16 @@ export default function PalaceScene({
   onSelect,
   onTidbitClick,
   onPortraitClick,
+  onOpenFinale,
   onHudChange,
 }: Props) {
   return (
     <PalaceNavProvider>
       <div className="relative h-full w-full">
         <Canvas
-          dpr={[1, 1.25]}
-          gl={{ powerPreference: "high-performance", antialias: false }}
-          camera={{ fov: 70, near: 0.1, far: 65 }}
+          dpr={[1, 1]}
+          gl={{ powerPreference: "default", antialias: false }}
+          camera={{ fov: 70, near: 0.1, far: 55 }}
           className="h-full w-full touch-none"
         >
           <Suspense fallback={null}>
@@ -120,7 +126,9 @@ export default function PalaceScene({
               onSelect={onSelect}
               onTidbitClick={onTidbitClick}
               onPortraitClick={onPortraitClick}
+              onOpenFinale={onOpenFinale}
               onHudChange={onHudChange}
+              renderActive={!uiBlocking}
             />
           </Suspense>
         </Canvas>

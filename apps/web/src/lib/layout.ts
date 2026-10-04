@@ -1,4 +1,5 @@
 import { matchPropFromText, slugId } from "./propMatch";
+import { classifyTopic, knowledgeFor } from "./topicKnowledge";
 import type { Concept } from "../types";
 
 /** Place concepts along a U-shaped path in the room. */
@@ -20,12 +21,17 @@ export function conceptsFromLines(lines: string[]): Concept[] {
   return lines
     .map((l) => l.trim())
     .filter(Boolean)
-    .map((line, i) => ({
-      id: slugId(line, i),
-      title: line.length > 48 ? `${line.slice(0, 45)}…` : line,
-      definition: `Remember: ${line}`,
-      mnemonic: `Anchor "${line.split(" ")[0] ?? "idea"}" to its object in the room.`,
-      keywords: line.toLowerCase().split(/\s+/),
-      prop: matchPropFromText(line),
-    }));
+    .map((line, i) => {
+      const know = knowledgeFor(line);
+      const prop = matchPropFromText(line);
+      return {
+        id: slugId(line, i),
+        title: line,
+        definition: know.definition,
+        mnemonic: know.hook,
+        keywords: line.toLowerCase().split(/\s+/),
+        semanticId: know.semanticId,
+        prop: { ...prop, shape: know.semanticId === "generic" ? prop.shape : classifyTopic(line) },
+      };
+    });
 }

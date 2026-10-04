@@ -25,7 +25,7 @@ export default function RoomExitButton({ concepts }: Props) {
         className="pointer-events-auto flex items-center gap-2 rounded-xl border-2 border-teal-300/90 bg-teal-950/90 px-4 py-2.5 text-sm font-semibold text-teal-50 shadow-lg backdrop-blur-sm transition hover:bg-teal-900 hover:border-teal-200 md:text-base"
       >
         <DoorOpen className="h-5 w-5 shrink-0" aria-hidden />
-        Leave room
+        Leave room (L)
       </button>
     </div>
   );

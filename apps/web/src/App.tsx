@@ -8,7 +8,7 @@ const ArchitecturePage = lazy(() => import("./pages/ArchitecturePage"));
 
 function PageFallback() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-ink text-sm text-slate-400">
+    <div className="flex min-h-screen items-center justify-center bg-[#F6F1E8] text-sm text-slate-600">
       Loading…
     </div>
   );

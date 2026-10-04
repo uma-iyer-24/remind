@@ -92,20 +92,19 @@ const holdout = modelMeta.holdout as {
 
 export default function ArchitecturePage() {
   return (
-    <div className="min-h-full bg-ink pb-24">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_30%_0%,_rgba(99,102,241,0.08),_transparent_50%)]" />
+    <div className="min-h-full bg-[#F6F1E8] pb-24">
 
       <SiteHeader />
 
       <div className="relative mx-auto grid max-w-6xl gap-10 px-6 md:grid-cols-[220px_1fr]">
         <nav className="hidden md:block">
-          <div className="sticky top-8 space-y-1 border-l border-white/10 pl-4">
+          <div className="sticky top-8 space-y-1 border-l border-stone-300 pl-4">
             <p className="mb-3 text-xs font-medium uppercase tracking-widest text-slate-500">On this page</p>
             {sections.map((s) => (
               <a
                 key={s.id}
                 href={`#${s.id}`}
-                className="block py-1 text-sm text-slate-400 transition hover:text-amber-glow"
+                className="block py-1 text-sm text-slate-600 transition hover:text-teal-900"
               >
                 {s.title}
               </a>
@@ -119,19 +118,19 @@ export default function ArchitecturePage() {
           className="min-w-0 space-y-16"
         >
           <header>
-            <p className="text-sm font-medium uppercase tracking-[0.2em] text-amber-glow">Case study reference</p>
-            <h1 className="mt-3 font-display text-4xl text-white md:text-5xl">How Remind works</h1>
-            <p className="mt-4 max-w-2xl text-lg text-slate-400">
+            <p className="text-sm font-medium uppercase tracking-[0.2em] text-teal-900">Case study reference</p>
+            <h1 className="mt-3 font-display text-4xl text-stone-950 md:text-5xl">How Remind works</h1>
+            <p className="mt-4 max-w-2xl text-lg text-slate-600">
               End-to-end view of the spatial memory product, forgetting-prediction ML, and full-stack integration
               for demos and presentation.
             </p>
           </header>
 
           <Section id="overview" title="Overview">
-            <p className="text-slate-300 leading-relaxed">
-              Remind turns a list of concepts into a <strong className="text-white">3D memory palace</strong>.
+            <p className="text-slate-700 leading-relaxed">
+              Remind turns a list of concepts into a <strong className="text-stone-950">3D memory palace</strong>.
               Each concept is a positioned object with a keyword-mapped prop and mnemonic. After quizzes, the
-              system estimates <strong className="text-white">probability of forgetting</strong> and moves
+              system estimates <strong className="text-stone-950">probability of forgetting</strong> and moves
               fragile items forward on the walk path so reinforcement is spatially obvious.
             </p>
             <ul className="mt-4 grid gap-3 sm:grid-cols-2">
@@ -143,90 +142,90 @@ export default function ArchitecturePage() {
           </Section>
 
           <Section id="how-it-works" title="How it works (plain English)">
-            <p className="text-slate-300 leading-relaxed">
-              Remind is a study app that wraps your topics in a <strong className="text-white">walkable memory palace</strong>.
+            <p className="text-slate-700 leading-relaxed">
+              Remind is a study app that wraps your topics in a <strong className="text-stone-950">walkable memory palace</strong>.
               Instead of scrolling flashcards, you move through a hall and corridor, enter colourful rooms, read notes on the
               walls, and take short quizzes. A small machine-learning model watches how you perform and guesses which ideas you
-              are most likely to forget next—then the palace <strong className="text-white">physically reorders itself</strong> so
+              are most likely to forget next—then the palace <strong className="text-stone-950">physically reorders itself</strong> so
               those topics are harder to ignore.
             </p>
 
-            <h3 className="mt-8 text-sm font-semibold uppercase tracking-widest text-slate-400">
+            <h3 className="mt-8 text-sm font-semibold uppercase tracking-widest text-slate-600">
               What you do as a learner
             </h3>
-            <ol className="mt-4 list-decimal space-y-4 pl-5 text-slate-300 leading-relaxed">
+            <ol className="mt-4 list-decimal space-y-4 pl-5 text-slate-700 leading-relaxed">
               <li>
-                <strong className="text-white">Start a session.</strong> Pick the built-in ML concepts demo or paste your own list
+                <strong className="text-stone-950">Start a session.</strong> Pick the built-in ML concepts demo or paste your own list
                 (each line becomes one topic). The app saves progress in the browser—no account required for the demo.
               </li>
               <li>
-                <strong className="text-white">Walk the palace.</strong> Use WASD or arrow keys to move and drag on the canvas to
+                <strong className="text-stone-950">Walk the palace.</strong> Use WASD or arrow keys to move and drag on the canvas to
                 look around. You begin in a front hall, walk into the corridor, and approach doors on the left
-                and right. Press <strong className="text-white">E</strong> (or follow the on-screen hints) to enter a topic room.
+                and right. Press <strong className="text-stone-950">E</strong> (or follow the on-screen hints) to enter a topic room.
               </li>
               <li>
-                <strong className="text-white">Encode each topic.</strong> Inside a room you see a 3D prop (shape and colour tied to
+                <strong className="text-stone-950">Encode each topic.</strong> Inside a room you see a 3D prop (shape and colour tied to
                 keywords), a portrait on the back wall, and clickable wall objects (plaque, scroll, gem) with quick facts. Click the
                 portrait for a richer panel: definition, mnemonic, and extra study notes, then start a quiz from there if you want.
               </li>
               <li>
-                <strong className="text-white">Recall checkpoint.</strong> Each quiz asks <strong className="text-white">five</strong>{" "}
+                <strong className="text-stone-950">Recall checkpoint.</strong> Each quiz asks <strong className="text-stone-950">five</strong>{" "}
                 multiple-choice questions about that topic (definition, mnemonic, title match, true/false, and a keyword). You get
                 immediate right/wrong feedback per question, then an overall score. Passing roughly means getting at least three out
                 of five correct.
               </li>
               <li>
-                <strong className="text-white">Leave and repeat.</strong> Use the <strong className="text-white">Leave room</strong>{" "}
-                button or press E when you are not at the portrait to return to the corridor. Visit other doors; high-risk topics
+                <strong className="text-stone-950">Leave and repeat.</strong> Use the <strong className="text-stone-950">Leave room</strong>{" "}
+                button or press L to return to the corridor. Visit other doors; high-risk topics
                 should appear closer to the hall after weak quiz scores.
               </li>
             </ol>
 
-            <h3 className="mt-8 text-sm font-semibold uppercase tracking-widest text-slate-400">
+            <h3 className="mt-8 text-sm font-semibold uppercase tracking-widest text-slate-600">
               What the software does behind the scenes
             </h3>
-            <div className="mt-4 space-y-4 text-slate-300 leading-relaxed">
+            <div className="mt-4 space-y-4 text-slate-700 leading-relaxed">
               <p>
-                The <strong className="text-white">web app</strong> (React) owns everything you see: 3D scene, session state, quiz UI,
+                The <strong className="text-stone-950">web app</strong> (React) owns everything you see: 3D scene, session state, quiz UI,
                 and door positions. For each concept it tracks review count, success and fail streaks, how long you took on quizzes,
                 when you last studied, and where that topic sits on the corridor path (its <em>path index</em>).
               </p>
               <p>
                 After ranking is requested—when you open the palace and again after each quiz—the client sends those stats to the{" "}
-                <strong className="text-white">FastAPI backend</strong>. The API loads a trained{" "}
-                <strong className="text-white">Random Forest</strong> (exported as{" "}
-                <code className="rounded bg-white/10 px-1.5 py-0.5 text-xs">forget_model.joblib</code>) and outputs a{" "}
-                <strong className="text-white">forget probability</strong> per concept plus a short human-readable explanation.
+                <strong className="text-stone-950">FastAPI backend</strong>. The API loads a trained{" "}
+                <strong className="text-stone-950">Random Forest</strong> (exported as{" "}
+                <code className="rounded bg-stone-200 px-1.5 py-0.5 text-xs">forget_model.joblib</code>) and outputs a{" "}
+                <strong className="text-stone-950">forget probability</strong> per concept plus a short human-readable explanation.
               </p>
               <p>
                 Concepts are sorted by that score. The palace layout maps rank to position: items predicted to be fragile move{" "}
-                <strong className="text-white">toward the front of the corridor</strong> (closer to the hall), so your next walk
+                <strong className="text-stone-950">toward the front of the corridor</strong> (closer to the hall), so your next walk
                 naturally hits weak material first. Doors and highlights also reflect risk so you can see focus areas without opening
                 the analytics page.
               </p>
               <p>
-                Quiz outcomes are also sent as <strong className="text-white">telemetry events</strong> for logging and future
+                Quiz outcomes are also sent as <strong className="text-stone-950">telemetry events</strong> for logging and future
                 retraining. The model itself is trained offline on spaced-repetition-style synthetic logs that mimic intervals,
                 streaks, and response times—see the dataset and training sections below for metrics and reproduction steps.
               </p>
             </div>
 
-            <h3 className="mt-8 text-sm font-semibold uppercase tracking-widest text-slate-400">
+            <h3 className="mt-8 text-sm font-semibold uppercase tracking-widest text-slate-600">
               If the API is not running
             </h3>
-            <p className="mt-4 text-slate-300 leading-relaxed">
+            <p className="mt-4 text-slate-700 leading-relaxed">
               The frontend can still run on Vercel without a live backend. In that case it falls back to a{" "}
-              <strong className="text-white">simple client-side heuristic</strong> (same feature idea, rule-based scores) so door
+              <strong className="text-stone-950">simple client-side heuristic</strong> (same feature idea, rule-based scores) so door
               order and glow still change after quizzes. The header shows whether scoring comes from the{" "}
-              <strong className="text-white">ML model</strong> or <strong className="text-white">offline heuristic</strong>. For
+              <strong className="text-stone-950">ML model</strong> or <strong className="text-stone-950">offline heuristic</strong>. For
               demos with full rubric integration, run the API locally or deploy it and point{" "}
-              <code className="rounded bg-white/10 px-1.5 py-0.5 text-xs">VITE_API_URL</code> at that host.
+              <code className="rounded bg-stone-200 px-1.5 py-0.5 text-xs">VITE_API_URL</code> at that host.
             </p>
 
-            <h3 className="mt-8 text-sm font-semibold uppercase tracking-widest text-slate-400">
+            <h3 className="mt-8 text-sm font-semibold uppercase tracking-widest text-slate-600">
               End-to-end loop (one sentence)
             </h3>
-            <p className="mt-4 rounded-xl border border-amber-glow/30 bg-amber-glow/5 px-5 py-4 text-slate-200 leading-relaxed">
+            <p className="mt-4 rounded-xl border border-teal-800/30 bg-teal-50 px-5 py-4 text-slate-800 leading-relaxed">
               You walk and quiz in 3D → the app records learning signals → ML estimates what you might forget → the palace reorders
               and labels high-risk topics → you walk again with better spatial cues for what to review next.
             </p>
@@ -234,10 +233,10 @@ export default function ArchitecturePage() {
 
           <Section id="system" title="System architecture">
             <MermaidDiagram chart={SYSTEM_ARCH} caption="High-level components and artifact flow" />
-            <p className="mt-4 text-sm text-slate-400">
+            <p className="mt-4 text-sm text-slate-600">
               The web client owns palace layout and session state. The API is stateless for predictions; quiz
               events may be logged for analytics and future retraining. Trained weights live in{" "}
-              <code className="rounded bg-white/10 px-1.5 py-0.5 text-xs">ml/artifacts/</code> and are loaded
+              <code className="rounded bg-stone-200 px-1.5 py-0.5 text-xs">ml/artifacts/</code> and are loaded
               when the API process starts.
             </p>
           </Section>
@@ -248,34 +247,34 @@ export default function ArchitecturePage() {
 
           <Section id="pipeline" title="Training pipeline">
             <MermaidDiagram chart={TRAINING_PIPELINE} caption="Offline ML pipeline (mirrors case-study rubric steps)" />
-            <p className="mt-4 text-sm text-slate-400">
+            <p className="mt-4 text-sm text-slate-600">
               Reproduce with{" "}
-              <code className="rounded bg-white/10 px-1.5 py-0.5 text-xs">python ml/train.py</code> from the
+              <code className="rounded bg-stone-200 px-1.5 py-0.5 text-xs">python ml/train.py</code> from the
               repo root. Swap synthetic data for Open Spaced Repetition exports when available.
             </p>
           </Section>
 
           <Section id="dataset" title="Dataset">
-            <div className="rounded-2xl border border-white/10 bg-ink-soft p-6">
+            <div className="rounded-2xl border border-stone-300 bg-white p-6">
               <dl className="grid gap-4 sm:grid-cols-2">
                 <Detail label="Source" value={modelMeta.dataset as string} />
                 <Detail label="Samples" value={String(modelMeta.n_samples)} />
                 <Detail label="Label" value={modelMeta.label as string} />
                 <Detail label="Unit of observation" value="One review event per user × concept" />
               </dl>
-              <p className="mt-6 text-sm leading-relaxed text-slate-400">
+              <p className="mt-6 text-sm leading-relaxed text-slate-600">
                 The current cohort simulates spaced-repetition dynamics: intervals, streaks, response time, and
                 layout position. It is calibrated to FSRS-style forgetting curves so models learn realistic
                 retention structure. For production research, replace with licensed Anki/OSR export logs while
                 keeping the same feature schema.
               </p>
             </div>
-            <h3 className="mt-8 text-sm font-semibold uppercase tracking-widest text-slate-400">Input features</h3>
+            <h3 className="mt-8 text-sm font-semibold uppercase tracking-widest text-slate-600">Input features</h3>
             <ul className="mt-3 flex flex-wrap gap-2">
               {(modelMeta.features as string[]).map((f) => (
                 <li
                   key={f}
-                  className="rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 font-mono text-xs text-slate-300"
+                  className="rounded-lg border border-stone-300 bg-stone-100 px-3 py-1.5 font-mono text-xs text-slate-700"
                 >
                   {f}
                 </li>
@@ -284,10 +283,10 @@ export default function ArchitecturePage() {
           </Section>
 
           <Section id="training" title="Training & evaluation">
-            <div className="overflow-x-auto rounded-2xl border border-white/10 bg-ink-soft">
+            <div className="overflow-x-auto rounded-2xl border border-stone-300 bg-white">
               <table className="w-full min-w-[520px] text-left text-sm">
                 <thead>
-                  <tr className="border-b border-white/10 text-xs uppercase tracking-widest text-slate-500">
+                  <tr className="border-b border-stone-300 text-xs uppercase tracking-widest text-slate-500">
                     <th className="p-4 font-medium">Model</th>
                     <th className="p-4 font-medium">CV AUC (mean ± std)</th>
                     <th className="p-4 font-medium">CV F1</th>
@@ -296,8 +295,8 @@ export default function ArchitecturePage() {
                 </thead>
                 <tbody>
                   {cvResults.map((row) => (
-                    <tr key={row.model} className="border-b border-white/5 text-slate-300">
-                      <td className="p-4 font-medium text-white">{formatModel(row.model)}</td>
+                    <tr key={row.model} className="border-b border-stone-200 text-slate-700">
+                      <td className="p-4 font-medium text-stone-950">{formatModel(row.model)}</td>
                       <td className="p-4">
                         {row.cv_auc_mean.toFixed(3)} ± {row.cv_auc_std.toFixed(3)}
                       </td>
@@ -314,33 +313,33 @@ export default function ArchitecturePage() {
               <Stat label="Hold-out AUC" value={holdout.test_auc.toFixed(3)} />
               <Stat label="Hold-out F1" value={holdout.test_f1.toFixed(3)} />
             </div>
-            <p className="mt-4 text-sm text-slate-400">
+            <p className="mt-4 text-sm text-slate-600">
               Best hyperparameters:{" "}
-              <code className="rounded bg-white/10 px-1.5 py-0.5 text-xs">
+              <code className="rounded bg-stone-200 px-1.5 py-0.5 text-xs">
                 {JSON.stringify(holdout.best_params)}
               </code>
               . Metrics above are baked into{" "}
-              <code className="rounded bg-white/10 px-1.5 py-0.5 text-xs">apps/web/src/data/model-metadata.json</code>{" "}
+              <code className="rounded bg-stone-200 px-1.5 py-0.5 text-xs">apps/web/src/data/model-metadata.json</code>{" "}
               for this page; re-sync after retraining.
             </p>
           </Section>
 
           <Section id="stack" title="Tech stack choices">
-            <div className="overflow-x-auto rounded-2xl border border-white/10 bg-ink-soft">
+            <div className="overflow-x-auto rounded-2xl border border-stone-300 bg-white">
               <table className="w-full text-left text-sm">
                 <thead>
-                  <tr className="border-b border-white/10 text-xs uppercase tracking-widest text-slate-500">
+                  <tr className="border-b border-stone-300 text-xs uppercase tracking-widest text-slate-500">
                     <th className="p-4 font-medium">Layer</th>
                     <th className="p-4 font-medium">Choice</th>
                     <th className="p-4 font-medium">Why</th>
                   </tr>
                 </thead>
-                <tbody className="text-slate-300">
+                <tbody className="text-slate-700">
                   {stackRows.map((row) => (
-                    <tr key={row.layer} className="border-b border-white/5">
-                      <td className="p-4 font-medium text-white">{row.layer}</td>
+                    <tr key={row.layer} className="border-b border-stone-200">
+                      <td className="p-4 font-medium text-stone-950">{row.layer}</td>
                       <td className="p-4">{row.choice}</td>
-                      <td className="p-4 text-slate-400">{row.why}</td>
+                      <td className="p-4 text-slate-600">{row.why}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -349,26 +348,26 @@ export default function ArchitecturePage() {
           </Section>
 
           <Section id="deploy" title="Deployment">
-            <ol className="list-decimal space-y-3 pl-5 text-slate-300">
+            <ol className="list-decimal space-y-3 pl-5 text-slate-700">
               <li>
-                <strong className="text-white">Frontend:</strong> Vercel, root{" "}
+                <strong className="text-stone-950">Frontend:</strong> Vercel, root{" "}
                 <code className="text-xs">apps/web</code>, optional{" "}
                 <code className="text-xs">VITE_API_URL</code> pointing to the API.
               </li>
               <li>
-                <strong className="text-white">API:</strong> Railway/Render/Fly or local{" "}
+                <strong className="text-stone-950">API:</strong> Railway/Render/Fly or local{" "}
                 <code className="text-xs">uvicorn</code>; mount{" "}
                 <code className="text-xs">ml/artifacts/</code> after training.
               </li>
               <li>
-                <strong className="text-white">Local:</strong>{" "}
+                <strong className="text-stone-950">Local:</strong>{" "}
                 <code className="text-xs">npm run dev</code> proxies{" "}
                 <code className="text-xs">/api</code> to port 8000.
               </li>
             </ol>
             <Link
               to="/"
-              className="mt-8 inline-flex rounded-xl bg-amber-glow px-5 py-2.5 text-sm font-semibold text-ink hover:bg-amber-400"
+              className="mt-8 inline-flex rounded-xl bg-stone-900 px-5 py-2.5 text-sm font-semibold text-stone-50 hover:bg-stone-800"
             >
               Back to demo
             </Link>
@@ -381,7 +380,7 @@ export default function ArchitecturePage() {
 
 const stackRows = [
   { layer: "3D UI", choice: "React Three Fiber + drei", why: "Hall, corridor, and topic rooms; WASD walk + quiz overlays." },
-  { layer: "App shell", choice: "React 18 + Vite + Tailwind", why: "Fast dev, mobile-friendly layout, custom dark theme." },
+  { layer: "App shell", choice: "React 18 + Vite + Tailwind", why: "Fast dev, mobile-friendly layout, ivory and charcoal interface." },
   { layer: "State", choice: "Zustand (+ persist)", why: "Session survives refresh without auth." },
   { layer: "API", choice: "FastAPI + Pydantic v2", why: "Rubric-aligned Python serving; typed request bodies match features." },
   { layer: "ML", choice: "scikit-learn pipelines", why: "CV, grid search, joblib export; easy to explain in slides." },
@@ -399,7 +398,7 @@ function Section({
 }) {
   return (
     <section id={id} className="scroll-mt-24">
-      <h2 className="font-display text-2xl text-white md:text-3xl">{title}</h2>
+      <h2 className="font-display text-2xl text-stone-950 md:text-3xl">{title}</h2>
       <div className="mt-5">{children}</div>
     </section>
   );
@@ -407,9 +406,9 @@ function Section({
 
 function Card({ title, body }: { title: string; body: string }) {
   return (
-    <li className="rounded-xl border border-white/10 bg-ink-soft p-4">
-      <p className="text-sm font-medium text-white">{title}</p>
-      <p className="mt-1 text-sm text-slate-400">{body}</p>
+    <li className="rounded-xl border border-stone-300 bg-white p-4">
+      <p className="text-sm font-medium text-stone-950">{title}</p>
+      <p className="mt-1 text-sm text-slate-600">{body}</p>
     </li>
   );
 }
@@ -418,16 +417,16 @@ function Detail({ label, value }: { label: string; value: string }) {
   return (
     <div>
       <dt className="text-xs uppercase tracking-widest text-slate-500">{label}</dt>
-      <dd className="mt-1 text-sm text-slate-200">{value}</dd>
+      <dd className="mt-1 text-sm text-slate-800">{value}</dd>
     </div>
   );
 }
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-white/10 bg-ink-soft p-4">
+    <div className="rounded-xl border border-stone-300 bg-white p-4">
       <p className="text-xs uppercase tracking-widest text-slate-500">{label}</p>
-      <p className="mt-2 font-display text-2xl text-amber-glow">{value}</p>
+      <p className="mt-2 font-display text-2xl text-teal-900">{value}</p>
     </div>
   );
 }

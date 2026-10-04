@@ -9,10 +9,8 @@ import type { WallTidbit } from "../../lib/wallTidbits";
 import type { ConceptState } from "../../types";
 import { mixHex } from "./colorUtils";
 import GrandHall from "./GrandHall";
-import { accentAt, corridorWallColor } from "./colorUtils";
 import {
   ChairRail,
-  ColorfulPainting,
   CrownMolding,
   HardwoodFloor,
   OrnateRug,
@@ -77,6 +75,13 @@ export default function MemoryPalaceWorld({
       }
     }
 
+    const finaleZ = corridorEndZ(rooms.length) + 2;
+    doorProbe.current.set(0, 1.65, finaleZ);
+    const finaleDist = camera.position.distanceTo(doorProbe.current);
+    if (finaleDist < 3.4 && (!closest || finaleDist < closest.dist)) {
+      closest = { conceptId: "__finale__", title: "Final review", dist: finaleDist };
+    }
+
     setNearDoorIfChanged(
       nearDoorRef.current,
       closest ? { conceptId: closest.conceptId, title: closest.title } : null,
@@ -90,6 +95,7 @@ export default function MemoryPalaceWorld({
     <group>
       <GrandHall />
       <Corridor endZ={endZ} />
+      <FinaleMark position={[0, 0, endZ + 2]} />
 
       {rooms.map(({ concept, slot, facing, index }) => (
         <group key={concept.id}>
@@ -129,11 +135,11 @@ function Corridor({ endZ }: { endZ: number }) {
     <group position={[0, 0, midZ]}>
       <HardwoodFloor width={CORRIDOR_WIDTH + 0.4} depth={length} />
       <OrnateRug
-        width={1.35}
+        width={1.15}
         depth={length - 2}
-        primary="#BE123C"
-        secondary="#FB7185"
-        border="#FDE047"
+        primary="#6B3A45"
+        secondary="#C4B48A"
+        border="#8A7355"
       />
 
       <mesh position={[0, h - 0.06, 0]}>
@@ -151,26 +157,26 @@ function Corridor({ endZ }: { endZ: number }) {
               height={h}
               depth={segmentLen - 0.1}
               position={[-CORRIDOR_WIDTH / 2 - 0.07, h / 2, 0]}
-              color={corridorWallColor(i * 2)}
+              color={t.wall}
             />
             <PaintedWall
               width={0.14}
               height={h}
               depth={segmentLen - 0.1}
               position={[CORRIDOR_WIDTH / 2 + 0.07, h / 2, 0]}
-              color={corridorWallColor(i * 2 + 1)}
+              color={t.wall}
             />
             <ChairRail
               width={0.16}
               depth={segmentLen - 0.12}
               position={[-CORRIDOR_WIDTH / 2 - 0.06, wainscotH + 0.03, 0]}
-              color={accentAt(i + 3)}
+              color={t.trim}
             />
             <ChairRail
               width={0.16}
               depth={segmentLen - 0.12}
               position={[CORRIDOR_WIDTH / 2 + 0.06, wainscotH + 0.03, 0]}
-              color={accentAt(i + 5)}
+              color={t.trim}
             />
             <Wainscoting
               width={0.16}
@@ -192,33 +198,56 @@ function Corridor({ endZ }: { endZ: number }) {
               <boxGeometry args={[0.06, 0.12, segmentLen - 0.15]} />
               <meshStandardMaterial color={t.trim} roughness={0.72} />
             </mesh>
-            <ColorfulPainting
-              position={[-CORRIDOR_WIDTH / 2 - 0.12, 1.75, 0]}
-              rotation={[0, Math.PI / 2, 0]}
-              colors={[accentAt(i), accentAt(i + 2), accentAt(i + 4)]}
-            />
-            <ColorfulPainting
-              position={[CORRIDOR_WIDTH / 2 + 0.12, 1.75, 0]}
-              rotation={[0, -Math.PI / 2, 0]}
-              colors={[accentAt(i + 1), accentAt(i + 3), accentAt(i + 5)]}
-            />
-            {i % 2 === 0 && (
-              <>
-                <WallSconce
-                  position={[-CORRIDOR_WIDTH / 2 - 0.1, 1.45, 0]}
-                  rotation={[0, Math.PI / 2, 0]}
-                  shadeColor={accentAt(i + 6)}
-                />
-                <WallSconce
-                  position={[CORRIDOR_WIDTH / 2 + 0.1, 1.45, 0]}
-                  rotation={[0, -Math.PI / 2, 0]}
-                  shadeColor={accentAt(i + 7)}
-                />
-              </>
+            {i % 3 === 0 && (
+              <WallSconce
+                position={[i % 2 === 0 ? -CORRIDOR_WIDTH / 2 - 0.1 : CORRIDOR_WIDTH / 2 + 0.1, 1.55, 0]}
+                rotation={[0, i % 2 === 0 ? Math.PI / 2 : -Math.PI / 2, 0]}
+                shadeColor="#E7D7B8"
+              />
             )}
           </group>
         );
       })}
+      {HALL_QUOTES.map((quote, i) => {
+        const z = -length / 2 + 6 + i * Math.max(6, (length - 8) / HALL_QUOTES.length);
+        const side = i % 2 === 0 ? -1 : 1;
+        return (
+          <group key={quote} position={[side * (CORRIDOR_WIDTH / 2 - 0.02), 1.7, z]} rotation={[0, side > 0 ? -Math.PI / 2 : Math.PI / 2, 0]}>
+            <mesh>
+              <planeGeometry args={[1.7, 0.42]} />
+              <meshStandardMaterial color="#F6F1E8" roughness={0.9} />
+            </mesh>
+            <Text position={[0, 0, 0.02]} fontSize={0.055} maxWidth={1.5} color="#4A3728" anchorX="center" anchorY="middle" textAlign="center">
+              {quote}
+            </Text>
+          </group>
+        );
+      })}
+    </group>
+  );
+}
+
+const HALL_QUOTES = [
+  "Small steps become lasting memories.",
+  "Recall is stronger than rereading.",
+  "Learn it. Place it. Remember it.",
+  "Your brain remembers stories, not lists.",
+  "One concept at a time.",
+];
+
+function FinaleMark({ position }: { position: [number, number, number] }) {
+  return (
+    <group position={position}>
+      <mesh position={[0, 1.15, 0]}>
+        <boxGeometry args={[1.6, 2.2, 0.12]} />
+        <meshStandardMaterial color="#E7E1D6" roughness={0.85} />
+      </mesh>
+      <Text position={[0, 1.35, 0.08]} fontSize={0.1} maxWidth={1.3} color="#3F3A34" anchorX="center" textAlign="center">
+        Final review
+      </Text>
+      <Text position={[0, 1.05, 0.08]} fontSize={0.05} maxWidth={1.3} color="#6B5E52" anchorX="center" textAlign="center">
+        Press E
+      </Text>
     </group>
   );
 }
@@ -241,6 +270,7 @@ function DoorFrame({
   index: number;
 }) {
   const sign = side === "left" ? -1 : 1;
+  void index;
   const rotY = side === "left" ? Math.PI / 2 : -Math.PI / 2;
   const faceRot = side === "left" ? Math.PI / 2 : -Math.PI / 2;
   const faceX = side === "left" ? 0.62 : -0.62;

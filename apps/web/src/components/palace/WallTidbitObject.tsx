@@ -8,7 +8,6 @@ export default function WallTidbitObject({
   tidbit,
   position,
   rotation = [0, 0, 0],
-  accent,
   shape,
   interactive,
   onSelect,
@@ -16,7 +15,6 @@ export default function WallTidbitObject({
   tidbit: WallTidbit;
   position: [number, number, number];
   rotation?: [number, number, number];
-  accent: string;
   shape: Shape;
   interactive: boolean;
   onSelect: (t: WallTidbit) => void;
@@ -46,16 +44,16 @@ export default function WallTidbitObject({
         {shape === "scroll" && <boxGeometry args={[0.35, 0.55, 0.05]} />}
         {shape === "gem" && <octahedronGeometry args={[0.22, 0]} />}
         <meshStandardMaterial
-          color={hover ? accent : "#FDE68A"}
-          emissive={accent}
-          emissiveIntensity={hover ? 0.55 : interactive ? 0.25 : 0.1}
+          color={hover ? "#E7E1D6" : "#F6F1E8"}
+          emissive="#000000"
+          emissiveIntensity={0}
           roughness={0.45}
         />
       </mesh>
       <Text
         position={[0, shape === "scroll" ? -0.38 : -0.32, 0.05]}
         fontSize={0.07}
-        color="#1E1B4B"
+        color="#3F3A34"
         anchorX="center"
         anchorY="middle"
       >

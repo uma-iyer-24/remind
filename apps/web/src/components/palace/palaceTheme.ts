@@ -27,21 +27,21 @@ export const palaceTheme = {
 
 /** Rotating accent colours for walls, art, upholstery, and rugs. */
 export const manorAccents = [
-  "#FF6B9D",
-  "#4ECDC4",
-  "#FFE066",
-  "#A78BFA",
-  "#FB923C",
-  "#38BDF8",
-  "#F472B6",
-  "#34D399",
-  "#F87171",
-  "#818CF8",
-  "#2DD4BF",
-  "#FBBF24",
-  "#E879F9",
-  "#22D3EE",
-  "#A3E635",
+  "#C4B7A6",
+  "#8FA396",
+  "#D9C7A3",
+  "#A39A90",
+  "#B08968",
+  "#7E92A0",
+  "#C3A6A0",
+  "#8E9A86",
+  "#D2C4B0",
+  "#9AA4AE",
+  "#A8B5AE",
+  "#CDB892",
+  "#B7A8A2",
+  "#8FA0A8",
+  "#C5C0B4",
 ];
 
 export function accentAt(index: number): string {

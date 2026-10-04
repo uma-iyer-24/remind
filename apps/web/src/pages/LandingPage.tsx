@@ -14,9 +14,7 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="relative min-h-full overflow-hidden">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(245,158,11,0.12),_transparent_55%)]" />
-      <div className="pointer-events-none absolute -right-32 top-20 h-96 w-96 rounded-full bg-indigo-600/20 blur-3xl" />
+    <div className="relative min-h-full overflow-hidden bg-[#F6F1E8]">
 
       <div className="relative z-10">
         <SiteHeader />
@@ -27,7 +25,7 @@ export default function LandingPage() {
           <motion.p
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-sm font-medium uppercase tracking-[0.2em] text-amber-glow"
+            className="text-sm font-medium uppercase tracking-[0.2em] text-teal-900"
           >
             Spatial memory, personalized
           </motion.p>
@@ -35,7 +33,7 @@ export default function LandingPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.05 }}
-            className="mt-4 font-display text-4xl leading-tight text-white md:text-5xl"
+            className="mt-4 font-display text-4xl leading-tight text-stone-950 md:text-5xl"
           >
             Turn anything into a memory palace you can walk through.
           </motion.h1>
@@ -43,7 +41,7 @@ export default function LandingPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="mt-5 max-w-lg text-lg text-slate-400"
+            className="mt-5 max-w-lg text-lg text-slate-600"
           >
             Each concept becomes an object in a 3D room. Quiz yourself, and ML predicts what
             you&apos;ll forget—then repositions those objects on your path.
@@ -58,14 +56,14 @@ export default function LandingPage() {
             <button
               type="button"
               onClick={tryDemo}
-              className="inline-flex items-center gap-2 rounded-xl bg-amber-glow px-5 py-3 text-sm font-semibold text-ink transition hover:bg-amber-400"
+              className="inline-flex items-center gap-2 rounded-xl bg-stone-900 px-5 py-3 text-sm font-semibold text-stone-50 transition hover:bg-stone-800"
             >
               Try ML concepts demo
               <ArrowRight className="h-4 w-4" />
             </button>
             <Link
               to="/create"
-              className="inline-flex items-center rounded-xl border border-white/15 px-5 py-3 text-sm font-medium text-white transition hover:bg-white/5"
+              className="inline-flex items-center rounded-xl border border-stone-300 px-5 py-3 text-sm font-medium text-stone-900 transition hover:bg-white"
             >
               Paste your own list
             </Link>
@@ -78,7 +76,7 @@ export default function LandingPage() {
           transition={{ delay: 0.1 }}
           className="glass relative aspect-square overflow-hidden rounded-3xl p-6"
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-amber-glow/10" />
+          <div className="absolute inset-0 bg-gradient-to-br from-stone-100 to-teal-50" />
           <div className="relative flex h-full flex-col justify-between">
             <div className="space-y-3">
               <Feature icon={Box} title="Objects, not flashcards" text="Keywords map to props in a shared knowledge base." />
@@ -104,12 +102,12 @@ function Feature({
 }) {
   return (
     <div className="flex gap-3">
-      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/5">
-        <Icon className="h-4 w-4 text-amber-glow" />
+      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-teal-50">
+        <Icon className="h-4 w-4 text-teal-900" />
       </div>
       <div>
-        <p className="text-sm font-medium text-white">{title}</p>
-        <p className="text-sm text-slate-400">{text}</p>
+        <p className="text-sm font-medium text-stone-950">{title}</p>
+        <p className="text-sm text-slate-600">{text}</p>
       </div>
     </div>
   );
